@@ -18,7 +18,17 @@ export interface MonacoUnocssOptions {
    * This may be either the UnoCSS configuration object, or a string that gets processed in the
    * worker.
    */
-  unocssConfig?: UnocssConfig
+  unocssConfig?: string
+
+  /**
+   * @default 'latest'
+   */
+  version?: string
+
+  /**
+   * @default 'https://esm.sh/'
+   */
+  cdnBase?: string
 }
 
 /**
@@ -38,7 +48,7 @@ export interface MonacoUnocss extends IDisposable {
    * @param unocssConfig
    *   The new UnoCSS configuration.
    */
-  setUnocssConfig: (unocssConfig: UnocssConfig) => void
+  setUnocssConfig: (unocssConfig: string) => void
 
   /**
    * Generate styles using UnoCSS.
@@ -75,5 +85,5 @@ export interface UnocssWorkerOptions {
    * @returns
    *   A valid UnoCSS configuration.
    */
-  prepareUnocssConfig?: (unocssConfig?: UnocssConfig) => UserConfig | PromiseLike<UserConfig>
+  prepareUnocssConfig?: (unocssConfig?: PromiseLike<UnocssConfig> | UnocssConfig) => UserConfig | PromiseLike<UserConfig>
 }

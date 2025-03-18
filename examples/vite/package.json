@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "monaco-editor": "^0.52.2",
-    "monaco-unocss": "^0.0.0",
+    "monaco-unocss": "workspace:*",
     "typescript": "~5.6.2",
     "unocss": "^65.4.0",
     "vite": "catalog:"

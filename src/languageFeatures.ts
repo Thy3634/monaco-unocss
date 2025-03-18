@@ -38,7 +38,7 @@ function createColorClass(color: languages.IColor): string {
   const hex = `${colorValueToHex(color.red)}${colorValueToHex(color.green)}${colorValueToHex(
     color.blue,
   )}`
-  const className = `tailwindcss-color-decoration-${hex}`
+  const className = `unocss-color-decoration-${hex}`
   const selector = `.${className}`
   for (const rule of Array.from(sheet.cssRules)) {
     if ((rule as CSSStyleRule).selectorText === selector) {
@@ -149,7 +149,7 @@ export function createHoverProvider(getWorker: WorkerAccessor): languages.HoverP
         fromPosition(position),
       )
 
-      return hover && toHover(hover)
+      return hover && hover.contents !== '```css\n\n```' ? toHover(hover) : null
     },
   }
 }

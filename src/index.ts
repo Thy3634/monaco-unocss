@@ -1,4 +1,3 @@
-import type { UserConfig } from '@unocss/core'
 import type { ConfigureMonacoUnocss, MonacoUnocssOptions } from './types/configure'
 import type { UnocssWorker } from './types/worker'
 import { registerMarkerDataProvider } from 'monaco-marker-data-provider'
@@ -64,7 +63,7 @@ export const configureMonacoUnocss: ConfigureMonacoUnocss
         }
       },
 
-      setUnocssConfig: (newUnocssConfig: UserConfig) => {
+      setUnocssConfig: (newUnocssConfig: string) => {
         workerManager.updateCreateData({ unocssConfig: newUnocssConfig })
       },
 
@@ -78,3 +77,5 @@ export const configureMonacoUnocss: ConfigureMonacoUnocss
       },
     }
   }
+
+export type { MonacoUnocss } from './types/configure'

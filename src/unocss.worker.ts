@@ -5,6 +5,7 @@ import { createAutocomplete } from '@unocss/autocomplete'
 import { createGenerator } from '@unocss/core'
 import { initialize as initializeWorker } from 'monaco-worker-manager/worker'
 import { TextDocument } from 'vscode-languageserver-textdocument'
+import { evaluateUserConfig } from './config'
 import { doComplete } from './worker/complete'
 import { doHover } from './worker/hover'
 
@@ -15,10 +16,17 @@ async function generatorConfig(configPromise: PromiseLike<UserConfig> | UserConf
 
 export function initialize(unocssWorkerOptions?: UnocssWorkerOptions): void {
   initializeWorker<UnocssWorker, MonacoUnocssOptions>((ctx, options) => {
+    let unocssConfig: PromiseLike<UserConfig> | undefined
+    try {
+      if (options.unocssConfig)
+        unocssConfig = evaluateUserConfig(options.unocssConfig, options.version, options.cdnBase)
+    }
+    catch (error) {
+      console.error(error)
+    }
     const preparedUnocssConfig: UserConfig | PromiseLike<UserConfig>
-          = unocssWorkerOptions?.prepareUnocssConfig?.(options.unocssConfig)
-          ?? options.unocssConfig
-          ?? ({} as UserConfig)
+          = unocssWorkerOptions?.prepareUnocssConfig?.(unocssConfig)
+          ?? unocssConfig ?? {}
     if (typeof preparedUnocssConfig !== 'object') {
       throw new TypeError(
         `Expected unocssConfig to resolve to an object, but got: ${JSON.stringify(
